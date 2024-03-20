@@ -1,0 +1,74 @@
+Scanning:
+
+1. Host Discovery
+i. nmap
+nmap -sn -PR <<IP Address>> #ARP
+nmap -sn -PU <<IP Address>> #UDP
+nmap -sn -PE <<IP Address>> #ICMP
+nmap -sn -PP <<IP Address>> #ICMP Timestamp
+nmap -sn -PS <<IP Address>> #SYN
+nmap -sn -PA <<IP Address>> #ACK
+
+ii.Angry IP Scanner
+Preferences --> Pinging Method (Combined UDP And TCP) --> Display Alive Hosts
+
+2. Port And Service Discovery
+
+i. Megaping
+ii. Netscan Tools.
+a. Ping Scanner  
+b. Port Scanner
+
+iii. SX Tool.
+sx arp <<ip address>>
+sx arp <<ip address> --json | tee arp.cache
+cat arp.cache | sx tcp -p 1-65535 <<ip address>>  #list of open ports
+cat arp.cache | sx udp --json -p 53 <<ip address>> #If no response then port is open.
+
+iv. Nmap
+nmap -sT -v <<IP Address>>  #TCP Scan
+nmap -sS -v <<IP Address>>  #If Firewall Open
+nmap -sX -v <<IP Address>>  #XMAS Scan
+nmap -sU -v <<IP Address>>  #UDP Scan
+nmap -sV -v <<IP Address>>  #Service Version Scan
+
+v. HPing3 
+hping3 -8 0-100 -S <<IP Address>> -V  #Check Open Ports and Services
+
+3. OS Detection.
+1.TTL Wireshark #IP of Target in Source and our IP in Destination.
+
+2. Nmap Script Engine
+nmap -O <<IP Address>>
+nmap –script smb-os-discovery.nse <<IP Address>>
+
+3. Unicornscan
+unicorn scan <<IP Address>> -Iv
+
+
+4. Firewall Bypass.
+i. Nmap
+nmap -f <<ip address>> #packet fragmentation
+nmap -g 80 <<ip address>>  #Source Port Manipulation
+nmap -mtu 8 <<ip address>> #small packets transmitted
+nmap -D RND:10 <<ip address>>  #Send random IP Address and real IP is middle of those IPs
+nmap -sT -Pn --spoof-mac 0 <<ip address>> #MAC Spoofing
+
+ii.Colasoft Packet Builder
+Adapter settings --> Add Packets --> Send and Start.
+
+iii. HPing3 
+hping3 <<ip address>> --udp --rand-source --data 500 
+iv. Proxyswitcher
+v. Cyber Ghost
+
+5. Network Scanning
+1. Metasploit.
+use scanner/portscan/syn
+use scanner/portscan/tcp 
+use scanner/smb/smb_version  #OS Detection. 
+
+
+
+
+ 

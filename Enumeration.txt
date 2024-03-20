@@ -1,0 +1,117 @@
+Enumeration - 
+
+1. FTP  (21)
+
+nmap -p 21 <<ip address>
+nmap -p 21 --script ftp-anon <<ip-address>>
+nmap -sC -sV -p- -Pn -T3 <<ip address>>
+ftp ip address #try anonymous and anonymous
+get <<filename>> #download file
+put <<filename>> #upload file
+medusa -h <<ip address>> -U u.txt -P p.txt -M ftp #Brute Force
+
+2. SSH (22) 
+nmap 192.168.248.129 -p 22 -v -sS -sV --script=ssh*  #scripts starting wiith ssh(username passwords)
+nc -v <<ip address>> 22 
+ssh username@ip
+metasploit - scanner/ssh/ssh_login
+hydra - hydra -L user.txt -P pass.txt <<ip address>> ssh -t 4
+scp user@<<ip address>>:/path/to/example.txt /home/user/Documents  #download file
+
+3. SMTP (25)
+
+nmap <<ip-address>> -p -sC -sV  -sS 
+nmap <<ip address>> --script=smtp* -p 25
+nmap –p 25 –script=smtp-enum-users <<ip address>> #List Of Users Or
+smtp-user-enum -M VRFY -U users.txt <<ip address>>
+nmap –p 25 –script=smtp-open-relay <<ip address>> #List Of Open Relays
+nmap –p 25 –script=smtp-commands <<ip address>>   #List Of Commands Available
+
+telnet <<ipaddress>> 25  #connect
+VRFY <<USERNAME>> #Verify existence of username. 252 means user present
+Metasploit - auxiliary/scanner/smtp/smtp_enum
+
+4. DNS (53) -
+
+whois <domain>
+nmap -sC -sV -p53 <<ip address>>
+nmap -p 53 --script dns-brute.nse <<ip address>>  #DNS Brute Force
+nmap –T4 –p 53 -–script dns-brute <<domain name>> #subdomains
+host <<domain name>> #information about the domain's DNS records
+
+Zone Transfer 
+dig ns <<domain name>>
+dig <<name server name>> <<domain name>> axfr
+
+nslookup 
+set type=ns
+ domain name 
+ls -d <<name server name>>
+
+dnsrecon –d <<domain name>> -z #dns zone walking
+
+NFS (111, 2049)
+
+./superenum and enter target ip txt file  #check NFS Service is running
+python3 rpc-scan.py <<ip address>> --rpc
+
+SNMP (161)
+
+snmp-check <<ip-address>>  # Hostname, HostIP, User Accounts,Storage Information, Shares Information.
+Softperfect network scanner - #select options as remote snmp
+
+nmap –sU –p 161 -–script=snmp-sysdescr <<IP Address>>  #os details and snmp information
+nmap –sU –p 161 -–script=snmp-processes <<IP Address>> #list of processes
+nmap –sU –p 161 -–script=snmp-win32-software <<IP Address>>  #list of applications running
+nmap –sU –p 161 -–script=snmp-interfaces <<IP Address>>  #OS Details, List of applications installed and network interfaces.
+snmpwalk –v1 –c public <<ip addresss>>
+
+Netbios
+
+i.Netbios enumerator 
+ii. nmap -sV --script nbtstat.nse <<ip address>> -Pn
+iii. nbtstat -g #group memberships
+iv.nbtstat -a  #name tables
+v. net use  #shared folder
+vi. nbtstat -c #information about NetBIOS names registered on your local computer.
+
+LDAP (389)
+
+Active Directory Explorer
+
+ldapsearch –h <<ipaddress>> -x –s base namingcontexts  #DOMAIN INFORMATION
+ldapsearch -x –h <<ipaddress>> -b “<<DOMAIN NAME>>” “objectClass=*”  #Retrieve information related to all objects 
+
+SMB (139, 445)
+
+nmap --script smb-os-discovery <<ip address>>
+nmap --script smb-enum-shares -p139,445 <<ip address>>
+smbmap -H <<ip address>>  #list shares
+smbmap -H <<ip address>> -u <<username>> -p <<password>>
+smbclient -L <<ip address>> 
+smbclient //<<ip address>>/<<share name>> -U <<username>>
+metasploit auxiliary/scanner/smb/smb_enumshares
+get 
+put
+
+medusa -u albert -P /usr/share/wordlists/rockyou.txt -h 172.19.90.198 -M smbnt
+
+Enum4linux 
+
+enum4linux -U <<username>> -P <<password>> -n <<ip-address>>  #Netbios Information
+
+enum4linux -U <<username>> -P <<password>> -U <<ip-address>>  #Userlist
+
+enum4linux -U <<username>> -P <<password>> -o <<ip-address>>  #OS Information
+
+enum4linux -U <<username>> -P <<password>> -P <<ip-address>>  #Password Policy Information
+
+enum4linux -U <<username>> -P <<password>> -G <<ip-address>>  #Group Policy Information
+
+enum4linux -U <<username>> -P <<password>> -S <<ip-address>>  #Share Policy Information
+
+enum4linux -U <<username>> -P <<password>> -l <<ip-address>>  #LDAP Information
+
+enum4linux -U <<username>> -P <<password>> -i <<ip-address>>  #Printer Information
+
+enum4linux -U <<username>> -P <<password>> -a <<ip-address>>  #All Information

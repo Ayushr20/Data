@@ -1,0 +1,90 @@
+Cloud Hacking
+1. Enumeration:
+1. S3 Bucket Name 
+
+nslookup <<Domain Name>>
+nslookup <<IP Address>>
+https://domainname.s3bucketname
+
+2. Lazy S3 Bucket.
+ruby lazys3.rb <<domain name>> #list publicly available buckets.
+
+3. S3Scanner
+python3 s3scanner.py --list urls.txt #url list
+
+4. S3 Bucket List #Extension.
+
+2. Exploit
+i. AWS CLI 
+pip3 install awscli
+aws configure
+aws s3 ls s3://bucketname
+aws s3 mv <<filename>> s3://bucketname
+aws s3 rm s3://bucketname/filename
+
+3. Policy Privilege Escalation.
+aws configure #Social Engineering secret key
+vim user-policy.json
+{
+“Version”:”2012-10-17”,
+“Statement”:
+{
+“Effect”:”Allow”,
+“Action”:”*”,
+“Resource”:”*”
+}
+}
+aws iam create-policy --policy-name <<name of policy>> --policy-document file://<<name of policy>>
+aws iam attach-user-policy --user-name <<Username>> --policy-arn <<ARN Number from above>> 
+aws iam list-attached-user-policies --user-name <<Username>>   #View attached policy of the target user.
+aws iam list-users  #list all IAM Users
+
+IOT And OT Hacking:
+
+1.Footprinting:
+i. WhoIS - #Domain Information, Registrant Contact, Raw Whois Data
+ii. Google Dorks  #Find SCADA Login Pages
+iii. Shodan #Login and search for 1883(MQTT) Port.
+port:1883   #MQTT
+SCADA country:IN  #find SCADA systems based on country.
+port:502    #Modbus Enabled SCADA systems.
+
+2. Capture And Analyze IOT Traffic.
+A. One Machine - Bevywise MQTT Route Software
+B. Other Machine Bevywise MQTT IOT Simulator  --> run simulator.bat
+New Network --> Enter IP machine one port 1883
+Add Blank Device --> Connect Device --> Add Device -->Subscribe To Command
+Machine One: http://localhost:8080
+Devices --> Send Command
+Wireshark (Machine 2) - 
+mqtt  #Info Publish Message, Below MQTT Protocol Message Length, Message Type, Message Identifier.
+
+
+
+Cryptography
+1. Hash Calc - File Hash
+2. MD5Calculator - File Hash
+3. HashMyFiles - File Hash
+4. CryptoForge - File Encrypt And Text Encrypt
+Right Click on File --> Show More Options --> Encrypt
+CryptoForge Text- Text Encoder And Decoder
+5.Advanced Encryption Package - File Encryption
+6.BCTextEncoder - Encrypt And Decrypt Text
+7. Self Signed Certificate - IIS Manager --> Server Certificates --> Create --> Name
+Select Site --> Bindings --> Add --> IP Address , Port,Hostname ,SSL Certificate --> Refresh
+8. Email Encryption RMail.
+Apps --> RMail Online
+
+1. Veracrypt - Disk Encryption .
+i. Create Volume --> Create An Encrypted File Container --> Size --> Password.
+ii. Select Mount And Volume to Mount.(Password)
+
+2.BitLocker  - Turn On Bitlocker --> Entire Drive --> Compatible Mode.
+3. Rohos Disk Encryption - 
+Create New Disk --> Change --> Disk Size --> Password
+
+Cryptanalysis  ( Content in notepad)
+1. Cryptool
+New --> Encrypt/Decrypt --> Symmetric --> RC2 --> Key Length
+2. Alphapeeler
+Create Notepad File --> Alphapeeler --> Professional Crypto --> Plain Text File --> Encrypted File To Save --> Passphrase

